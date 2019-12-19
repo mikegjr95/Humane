@@ -217,19 +217,31 @@ namespace HumaneSociety
         // TODO: Adoption CRUD Operations
         internal static void Adopt(Animal animal, Client client)
         {
-            var adopt = db.Adoptions.Where(a => a.Animal == animal && a.Client == client).Select(a => a).Single();
-            db.Adoptions.InsertOnSubmit(adopt);
+            Adoption adoption = null;
+            adoption.AnimalId = animal.AnimalId;
+            adoption.ClientId = client.ClientId;
+            adoption.ApprovalStatus = "pending";
+            adoption.AdoptionFee = 75;
+            adoption.PaymentCollected = false;
+
+            db.Adoptions.InsertOnSubmit(adoption);
             db.SubmitChanges();
         }
 
         internal static IQueryable<Adoption> GetPendingAdoptions()
         {
-            throw new NotImplementedException();
+            return db.Adoptions.Where(a => a.ApprovalStatus == "pending" ).Select(a => a);
         }
 
         internal static void UpdateAdoption(bool isAdopted, Adoption adoption)
         {
-            throw new NotImplementedException();
+            if (isAdopted == true)
+            {
+                var newAdopt = db.Adoptions.Where(a => a.AnimalId == adoption.AnimalId && a.ClientId == adoption.ClientId).Select(a => a).Single();
+                newAdopt.ApprovalStatus = "Approved";
+                newAdopt.PaymentCollected = true;
+            }
+          
         }
 
         internal static void RemoveAdoption(int animalId, int clientId)
@@ -245,7 +257,7 @@ namespace HumaneSociety
         // TODO: Shots Stuff
         internal static IQueryable<AnimalShot> GetShots(Animal animal)
         {
-            throw new NotImplementedException();
+            return db.AnimalShots.Where(s => s.AnimalId == animal.AnimalId).Select(s => s);
         }
 
         internal static void UpdateShot(string shotName, Animal animal)
