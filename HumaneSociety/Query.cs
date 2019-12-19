@@ -217,7 +217,9 @@ namespace HumaneSociety
         // TODO: Adoption CRUD Operations
         internal static void Adopt(Animal animal, Client client)
         {
-            throw new NotImplementedException();
+            var adopt = db.Adoptions.Where(a => a.Animal == animal && a.Client == client).Select(a => a).Single();
+            db.Adoptions.InsertOnSubmit(adopt);
+            db.SubmitChanges();
         }
 
         internal static IQueryable<Adoption> GetPendingAdoptions()
@@ -232,7 +234,12 @@ namespace HumaneSociety
 
         internal static void RemoveAdoption(int animalId, int clientId)
         {
-            throw new NotImplementedException();
+            var adopt = db.Adoptions.Where(a => a.ClientId == clientId && a.AnimalId == animalId).Select(a => a).SingleOrDefault();
+            if (adopt != null)
+            {
+                db.Adoptions.DeleteOnSubmit(adopt);
+                db.SubmitChanges();
+            }
         }
 
         // TODO: Shots Stuff
