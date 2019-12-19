@@ -250,10 +250,7 @@ namespace HumaneSociety
         // TODO: Animal Multi-Trait Search
         internal static IQueryable<Animal> SearchForAnimalsByMultipleTraits(Dictionary<int, string> updates) // parameter(s)?
         {
-            if(updates.Count > 0)
-            {
-                var animals = db.Animals.Where(t => t.AnimalId == updates).Select(true => true);
-            }
+            return db.Animals.Where(t => t.AnimalId == updates).Select(t => t).Single();
         }
          
         // TODO: Misc Animal Things
@@ -320,7 +317,10 @@ namespace HumaneSociety
 
         internal static void UpdateShot(string shotName, Animal animal)
         {
-            throw new NotImplementedException();
+            var updateAnimal = db.Animals.Where(a => a.AnimalId == animal.AnimalId).Select(a => a).Single();
+            var sName = updateAnimal.AnimalShots.Select(s => s.Shot.Name).Single();
+            sName = shotName;
+            db.SubmitChanges();
         }
     }
 }
