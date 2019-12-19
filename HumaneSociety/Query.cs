@@ -166,7 +166,32 @@ namespace HumaneSociety
         // TODO: Allow any of the CRUD operations to occur here
         internal static void RunEmployeeQueries(Employee employee, string crudOperation)
         {
-            throw new NotImplementedException();
+            switch (crudOperation)
+            {
+                case "create":
+                    db.Employees.InsertOnSubmit(employee);
+                    break;
+                case "read":
+                    var grunt = db.Employees.Where(e => e == employee).Select(e => e).Single();
+                    Console.WriteLine("First Name: " + grunt.FirstName + "\n" + "Last Name: " + grunt.LastName + "\n" + "Username: " + grunt.UserName + "\n" + "Password: " + grunt.Password + "\n" + "Email: " + grunt.Email + "\n" + "Employee Number: " + grunt.EmployeeNumber);
+                    Console.ReadLine();
+                    break;
+                case "update":
+                    var newEmployee = db.Employees.Where(e => e.EmployeeId == employee.EmployeeId).Select(e => e).Single();
+                    newEmployee.FirstName = employee.FirstName;
+                    newEmployee.LastName = employee.LastName;
+                    newEmployee.EmployeeNumber = employee.EmployeeNumber;
+                    newEmployee.Email = employee.Email;
+                    break;
+                case "delete":
+                    db.Employees.DeleteOnSubmit(employee);
+                    break;
+                default:
+                    break;
+            }
+            db.SubmitChanges();
+
+
         }
 
         // TODO: Animal CRUD Operations
@@ -182,8 +207,38 @@ namespace HumaneSociety
         }
 
         internal static void UpdateAnimal(int animalId, Dictionary<int, string> updates)
-        {            
-            throw new NotImplementedException();
+        {
+            Animal animal = db.Animals.Where(a => a.AnimalId == animalId).Select(a => a).Single();
+            if (updates[1] != null)
+            {
+                animal.Category.Name = updates[1];
+            }
+            if (updates[2] != null)
+            {
+                animal.Name = updates[2];
+            }
+            if (updates[3] != null)
+            {
+                animal.Age = Convert.ToInt32(updates[3]);
+            }
+            if (updates[4] != null)
+            {
+                animal.Demeanor = updates[4];
+            }
+            if (updates[5] != null)
+            {
+                animal.KidFriendly = Convert.ToBoolean(updates[5]);
+            }
+            if (updates[6] != null)
+            {
+                animal.PetFriendly = Convert.ToBoolean(updates[6]);
+            }
+            if (updates[7] != null)
+            {
+                animal.Weight = Convert.ToInt32(updates[7]);
+            }
+            db.Animals.InsertOnSubmit(animal);
+            db.SubmitChanges();
         }
 
         internal static void RemoveAnimal(Animal animal)
@@ -195,7 +250,10 @@ namespace HumaneSociety
         // TODO: Animal Multi-Trait Search
         internal static IQueryable<Animal> SearchForAnimalsByMultipleTraits(Dictionary<int, string> updates) // parameter(s)?
         {
-            throw new NotImplementedException();
+            if(updates.Count > 0)
+            {
+                var animals = db.Animals.Where(t => t.AnimalId == updates).Select(true => true);
+            }
         }
          
         // TODO: Misc Animal Things
