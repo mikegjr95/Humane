@@ -198,6 +198,23 @@ namespace HumaneSociety
         internal static void AddAnimal(Animal animal)
         {
             db.Animals.InsertOnSubmit(animal);
+            Addtoroom(animal);
+            db.SubmitChanges();
+        }
+
+
+        internal static void Addtoroom(Animal animal)
+        {
+            Room newRoom = null;
+            newRoom.AnimalId = animal.AnimalId;
+            newRoom.Animal = animal;
+            db.SubmitChanges();
+        }
+
+        internal static void RemoveFromRoom(Animal animal)
+        {
+            var room = db.Rooms.Where(r => r.AnimalId == animal.AnimalId).Select(r => r).Single();
+            db.Rooms.DeleteOnSubmit(room);
             db.SubmitChanges();
         }
 
@@ -244,13 +261,16 @@ namespace HumaneSociety
         internal static void RemoveAnimal(Animal animal)
         {
             db.Animals.DeleteOnSubmit(animal);
+            RemoveFromRoom(animal);
+            var clientid = db.Adoptions.Where(a => a.AnimalId == animal.AnimalId).Select(a => a.ClientId).Single();
+            RemoveAdoption(animal.AnimalId, clientid);
             db.SubmitChanges();
         }
         
         // TODO: Animal Multi-Trait Search
         internal static IQueryable<Animal> SearchForAnimalsByMultipleTraits(Dictionary<int, string> updates) // parameter(s)?
         {
-            return db.Animals.Where(t => t.AnimalId == updates).Select(t => t).Single();
+            throw new NotImplementedException { };
         }
          
         // TODO: Misc Animal Things
