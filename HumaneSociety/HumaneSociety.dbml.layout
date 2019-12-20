@@ -38,7 +38,7 @@
         <elementListCompartment Id="7c5c2532-e51d-400a-83c1-4ba5eb15b5ef" absoluteBounds="3.515, 11.96, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="c180016e-0173-4183-8382-ec513fc4a7fd" absoluteBounds="0.75, 1.375, 2, 1.5785953776041664">
+    <classShape Id="c180016e-0173-4183-8382-ec513fc4a7fd" absoluteBounds="0.75, 1.375, 2, 1.5785953776041666">
       <DataClassMoniker Name="/HumaneSocietyDataContext/DietPlan" />
       <nestedChildShapes>
         <elementListCompartment Id="aeed35c4-041b-4359-a747-4fc472d0dd07" absoluteBounds="0.765, 1.835, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />

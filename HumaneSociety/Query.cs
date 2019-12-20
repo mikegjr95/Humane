@@ -270,7 +270,38 @@ namespace HumaneSociety
         // TODO: Animal Multi-Trait Search
         internal static IQueryable<Animal> SearchForAnimalsByMultipleTraits(Dictionary<int, string> updates) // parameter(s)?
         {
-            throw new NotImplementedException { };
+            var animalList = db.Animals.Select(a => a);
+            foreach (var item in updates)
+            {
+                switch (item.Key)
+                {
+                    case 1:
+                        animalList = animalList.Where(a => a.Category.Name == updates[1]).Select(a => a);
+                        break;
+                    case 2:
+                        animalList = animalList.Where(a => a.Name == updates[2]).Select(a => a);
+                        break;
+                    case 3:
+                        animalList = animalList.Where(a => a.Age == Convert.ToInt32(updates[3])).Select(a => a);
+                        break;
+                    case 4:
+                        animalList = animalList.Where(a => a.Demeanor == updates[4]).Select(a => a);
+                        break;
+                    case 5:
+                        animalList = animalList.Where(a => a.KidFriendly == Convert.ToBoolean(updates[5])).Select(a => a);
+                        break;
+                    case 6:
+                        animalList = animalList.Where(a => a.PetFriendly == Convert.ToBoolean(updates[6])).Select(a => a);
+                        break;
+                    case 7:
+                        animalList = animalList.Where(a => a.Weight == Convert.ToInt32(updates[7])).Select(a => a);
+                        break;
+                    case 8:
+                        animalList = animalList.Where(a => a.AnimalId == Convert.ToInt32(updates[8])).Select(a => a);
+                        break;
+                }
+            }
+            return animalList;
         }
          
         // TODO: Misc Animal Things
@@ -337,10 +368,17 @@ namespace HumaneSociety
 
         internal static void UpdateShot(string shotName, Animal animal)
         {
-            var updateAnimal = db.Animals.Where(a => a.AnimalId == animal.AnimalId).Select(a => a).Single();
-            var sName = updateAnimal.AnimalShots.Select(s => s.Shot.Name).Single();
-            sName = shotName;
-            db.SubmitChanges();
+            AnimalShot animalShot = db.AnimalShots.Where(s => s.Shot.Name == shotName && s.AnimalId == animal.AnimalId).Select(s => s).SingleOrDefault();
+            if (animalShot == null)
+            {
+
+            }
+            else
+            {
+                DateTime dateTime = new DateTime();
+                animalShot.DateReceived = dateTime.Date;
+                db.SubmitChanges();
+            }
         }
     }
 }
