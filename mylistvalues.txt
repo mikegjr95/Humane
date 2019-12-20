@@ -1,0 +1,37 @@
+INSERT INTO dbo.Categories VALUES('reptile');
+INSERT INTO dbo.Categories VALUES('dog');
+INSERT INTO dbo.Categories VALUES('cat');
+INSERT INTO dbo.Categories VALUES('amphibian');
+INSERT INTO dbo.Categories VALUES('bird');
+
+INSERT INTO dbo.Animals (Name,Weight,Age,Demeanor,KidFriendly,PetFriendly,Gender,AdoptionStatus)VALUES('Timmy',20,208,'grumpy',0,0,'unknown','becoming business pet');
+INSERT INTO dbo.Animals (Name,Weight,Age,Demeanor,KidFriendly,PetFriendly,Gender,AdoptionStatus)VALUES('james',3000,1,'happy',1,1,'male','not adopted');
+INSERT INTO dbo.Animals (Name,Weight,Age,Demeanor,KidFriendly,PetFriendly,Gender,AdoptionStatus)VALUES('Tommyboy',120,120,'mean',1,0,'female','close to adoption');
+INSERT INTO dbo.Animals (Name,Weight,Age,Demeanor,KidFriendly,PetFriendly,Gender,AdoptionStatus)VALUES('Snoop-lion',420,420,'sleepy',0,1,'male','just chillin');
+INSERT INTO dbo.Animals (Name,Weight,Age,Demeanor,KidFriendly,PetFriendly,Gender,AdoptionStatus)VALUES('Angry Greg the Mongrol',70,100,'kind',1,1,'unknown','unknown');
+
+INSERT INTO dbo.Employees (FirstName,LastName,UserName,Password,EmployeeNumber,Email) VALUES('Uma','Thurman','msAwesomeButt','quentinterotino',47,'theoneandonlykillbill@gmail.com');
+INSERT INTO dbo.Employees (FirstName,LastName,UserName,Password,EmployeeNumber,Email) VALUES('Bruce','Banner','thehulk','strongestavengers',11,'ikilledloki@gmail.com');
+INSERT INTO dbo.Employees (FirstName,LastName,UserName,Password,EmployeeNumber,Email) VALUES('Capatian','America','thepatriot','starspanglebanner',1929,'murica@gmail.com');
+INSERT INTO dbo.Employees (FirstName,LastName,UserName,Password,EmployeeNumber,Email) VALUES('Steve','Jobs','genius','supergenius',1980,'appleman@gmail.com');
+INSERT INTO dbo.Employees (FirstName,LastName,UserName,Password,EmployeeNumber,Email) VALUES('Thor','Odinson','godman','imagod',1000000,'stormbreaker@gmail.com');
+
+INSERT INTO dbo.Rooms(RoomNumber) VALUES (1);
+INSERT INTO dbo.Rooms(RoomNumber) VALUES (2);
+INSERT INTO dbo.Rooms(RoomNumber) VALUES (3);
+INSERT INTO dbo.Rooms(RoomNumber) VALUES (4);
+INSERT INTO dbo.Rooms(RoomNumber) VALUES (5);
+INSERT INTO dbo.Rooms(RoomNumber) VALUES (6);
+INSERT INTO dbo.Rooms(RoomNumber) VALUES (7);
+INSERT INTO dbo.Rooms(RoomNumber) VALUES (8);
+INSERT INTO dbo.Rooms(RoomNumber) VALUES (9);
+INSERT INTO dbo.Rooms(RoomNumber) VALUES (10);
+
+INSERT INTO dbo.Clients(FirstName,LastName,UserName,Password,Email) VALUES ('Adolf','Hitler','monster','worstpersonever','thirdReich@hotmail.com');
+INSERT INTO dbo.Clients(FirstName,LastName,UserName,Password,Email) VALUES ('Josef','Stalin','communist','thefounder','conrad@hotmail.com');
+INSERT INTO dbo.Clients(FirstName,LastName,UserName,Password,Email) VALUES ('Ganghis','Khan','worldConqueror','beastoftheland','beastymongobeefcake@hotmail.com');
+INSERT INTO dbo.Clients(FirstName,LastName,UserName,Password,Email) VALUES ('Alfred','Nobel','boomboom','explosion','theboomboomman@hotmail.com');
+INSERT INTO dbo.Clients(FirstName,LastName,UserName,Password,Email) VALUES ('Fidel','Castro','dictator','noonematters','iamking@hotmail.com');
+
+//i did diet plans too but i forgot to add it before i deleted it please don't dock me points for that.
+

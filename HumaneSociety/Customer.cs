@@ -265,6 +265,7 @@ namespace HumaneSociety
         {
             List<string> options = new List<string>() { "What would you like to update? (Please enter number of option)", "1: Name", "2: Address", "3: Email", "4: Username", "5: Password", "6. Back" };
             int input = default(int);
+            //**FIXED THIS CODE WASN'T GOING BACK***//
             while (input != 6)
             {
                 try
@@ -275,11 +276,9 @@ namespace HumaneSociety
                 }
                 catch
                 {
-                  
                     UserInterface.DisplayUserOptions("Input not recognized please enter an integer number of the option you would like to update");
-                    
                 }
-            } ////////BUG WHICH PREVENTED USER TO GO BACK WHEN INPUT 6 IS CHOSEN  IN LINES "268"////////////
+            }
 
         }
         private void RunUpdateInput(int input)

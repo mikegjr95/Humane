@@ -1,1 +1,1 @@
-# Humane
+# HumaneSociety
