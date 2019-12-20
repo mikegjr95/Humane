@@ -1,0 +1,38 @@
+INSERT INTO dbo.Categories VALUES('Reptile');
+INSERT INTO dbo.Categories VALUES('dog');
+INSERT INTO dbo.Categories VALUES('cat');
+INSERT INTO dbo.Categories VALUES('amphibian');
+INSERT INTO dbo.Categories VALUES('bird');
+
+INSERT INTO dbo.Animals (Name, Weight, Age, Demeanor, KidFriendly, PetFriendly, Gender, AdoptionStatus) VALUES('timmy',20,208,'Grumpy',0,0,'Unknown','becoming the business pet');
+INSERT INTO dbo.Animals (Name, Weight, Age, Demeanor, KidFriendly, PetFriendly, Gender, AdoptionStatus) VALUES('skippy',2,5,'social',0,0,'male','available');
+INSERT INTO dbo.Animals (Name, Weight, Age, Demeanor, KidFriendly, PetFriendly, Gender, AdoptionStatus) VALUES('killer',10,15,'shy',0,0,'male','on hold');
+INSERT INTO dbo.Animals (Name, Weight, Age, Demeanor, KidFriendly, PetFriendly, Gender, AdoptionStatus) VALUES('rex',100,1,'hyper',0,0,'female','will be available soon');
+INSERT INTO dbo.Animals (Name, Weight, Age, Demeanor, KidFriendly, PetFriendly, Gender, AdoptionStatus) VALUES('fluffy',6,3,'runny',0,0,'female','adopted');
+
+INSERT INTO dbo.Rooms (RoomNumber) Values (1);
+INSERT INTO dbo.Rooms (RoomNumber) Values (2);
+INSERT INTO dbo.Rooms (RoomNumber) Values (3);
+INSERT INTO dbo.Rooms (RoomNumber) Values (4);
+INSERT INTO dbo.Rooms (RoomNumber) Values (5);
+INSERT INTO dbo.Rooms (RoomNumber) Values (6);
+INSERT INTO dbo.Rooms (RoomNumber) Values (7);
+INSERT INTO dbo.Rooms (RoomNumber) Values (8);
+INSERT INTO dbo.Rooms (RoomNumber) Values (9);
+INSERT INTO dbo.Rooms (RoomNumber) Values (10);
+
+INSERT INTO dbo.Employees Values('Michael','Gonzalez','MG3','ILIKETURTLES',187,'mikegjr95@gmail.com');
+INSERT INTO dbo.Employees VALUES('Houa','Cha','AssKicker','ILIKECODE',007,'Houa@gmail.com');
+INSERT INTO dbo.Employees VALUES('Manuel','Gonzalez','SHOOTHOOP','COCAINECOWBOY',777,'Buckets01@gmail.com');
+INSERT INTO dbo.Employees VALUES('Phil','Pepperknucker','PQUAD','IHATEMYLIFE',837,'knucker@gmail.com');
+INSERT INTO dbo.Employees VALUES('Michael','Treestamp','FarFromTheTree','CHICKENKILLER',456,'mikegjr95@gmail.com');
+
+
+
+
+
+INSERT INTO dbo.Clients ('Billy','Bob','BB','BOB67',NULL,'BOB@gmail.com');
+INSERT INTO dbo.Clients ('Uma','Bob','UB','uma70',NULL,'Uma@gmail.com');
+INSERT INTO dbo.Clients ('John','Fellen','BB','john90',NULL,'john@gmail.com');
+INSERT INTO dbo.Clients ('Maria','Santos','BB','maria44',NULL,'maria@gmail.com');
+INSERT INTO dbo.Clients ('Dalia','Black','BB','Haunt00',NULL,'Dalia@gmail.com');
