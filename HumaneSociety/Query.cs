@@ -121,7 +121,7 @@ namespace HumaneSociety
             // submit changes
             db.SubmitChanges();
         }
-
+        
         internal static void AddUsernameAndPassword(Employee employee)
         {
             Employee employeeFromDb = db.Employees.Where(e => e.EmployeeId == employee.EmployeeId).FirstOrDefault();
@@ -156,8 +156,14 @@ namespace HumaneSociety
         internal static bool CheckEmployeeUserNameExist(string userName)
         {
             Employee employeeWithUserName = db.Employees.Where(e => e.UserName == userName).FirstOrDefault();
-
-            return employeeWithUserName == null;
+            if (employeeWithUserName == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
 
@@ -191,7 +197,8 @@ namespace HumaneSociety
         }
         internal static void UpdateEmployee(Employee employee)
         {
-            var newEmployee = db.Employees.Where(e => e.EmployeeId == employee.EmployeeId).Select(e => e).SingleOrDefault();
+            var newEmployee = db.Employees.Where(e => e.FirstName == employee.FirstName && e.LastName == employee.LastName && e.EmployeeNumber == employee.EmployeeNumber && e.Email == employee.Email).Select(e => e).SingleOrDefault();
+
             if (newEmployee == null)
             {
                 Console.WriteLine("No employee found to update.");
@@ -199,29 +206,43 @@ namespace HumaneSociety
             }
             else
             {
-                newEmployee.FirstName = employee.FirstName;
-                newEmployee.LastName = employee.LastName;
-                newEmployee.EmployeeNumber = employee.EmployeeNumber;
-                newEmployee.Email = employee.Email;
+                newEmployee.FirstName = UserInterface.GetStringData("first name", "the employee's");
+                newEmployee.LastName = UserInterface.GetStringData("last name", "the employee's");
+                newEmployee.EmployeeNumber = int.Parse(UserInterface.GetStringData("employee number", "the employee's"));
+                newEmployee.Email = UserInterface.GetStringData("email", "the employee's"); ;
+                newEmployee.FirstName = UserInterface.GetStringData("username", "the employee's");
+                newEmployee.LastName = UserInterface.GetStringData("password", "the employee's");
+                db.SubmitChanges();
             }
-            db.SubmitChanges();
         }
         internal static void DeleteEmployee(Employee employee)
         {
-            db.Employees.DeleteOnSubmit(employee);
-            db.SubmitChanges();
+            var oldEmployee = db.Employees.Where(e => e.LastName == employee.LastName && e.EmployeeNumber == employee.EmployeeNumber).Select(e => e).SingleOrDefault();
+            if (oldEmployee == null)
+            {
+                Console.WriteLine("No employees found.");
+                Console.ReadLine();
+            }
+            else
+            {
+                db.Employees.DeleteOnSubmit(oldEmployee);
+                db.SubmitChanges();
+                Console.WriteLine("Delete successful.");
+                Console.ReadLine();
+            }
         }
         internal static void GetEmployee(Employee employee)
         {
-            var grunt = db.Employees.Where(e => e == employee).Select(e => e).Single();
+            var grunt = db.Employees.Where(e => e.EmployeeNumber == employee.EmployeeNumber).Select(e => e).Single();
             Console.WriteLine("First Name: " + grunt.FirstName + "\n" + "Last Name: " + grunt.LastName + "\n" + "Username: " + grunt.UserName + "\n" + "Password: " + grunt.Password + "\n" + "Email: " + grunt.Email + "\n" + "Employee Number: " + grunt.EmployeeNumber);
             Console.ReadLine();
-            db.SubmitChanges();
         }
         internal static void AddAnimal(Animal animal)
         {
             db.Animals.InsertOnSubmit(animal);
             AddToRoom(animal);
+
+            
             db.SubmitChanges();
         }
 
@@ -392,13 +413,22 @@ namespace HumaneSociety
 
         internal static void UpdateShot(string shotName, Animal animal)
         {
+            DateTime dateTime = new DateTime();
             AnimalShot animalShot = db.AnimalShots.Where(s => s.Shot.Name == shotName && s.AnimalId == animal.AnimalId).Select(s => s).SingleOrDefault();
             if (animalShot == null) 
             {
+                Shot shot = new Shot();
+                shot.Name = shotName;
+                db.Shots.InsertOnSubmit(shot);
+                db.SubmitChanges();
+                animalShot.AnimalId = animal.AnimalId;
+                animalShot.ShotId = shot.ShotId;
+                animalShot.DateReceived = dateTime.Date;
+                db.AnimalShots.InsertOnSubmit(animalShot);
+                db.SubmitChanges();
             }
             else
             {
-                DateTime dateTime = new DateTime();
                 animalShot.DateReceived = dateTime.Date;
                 db.SubmitChanges();
             }
