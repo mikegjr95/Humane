@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace HumaneSociety
 {
@@ -190,11 +191,13 @@ namespace HumaneSociety
                     break;
             }
         }
+
         internal static void AddEmployee(Employee employee)
         {
             db.Employees.InsertOnSubmit(employee);
             db.SubmitChanges();
         }
+
         internal static void UpdateEmployee(Employee employee)
         {
             var newEmployee = db.Employees.Where(e => e.FirstName == employee.FirstName && e.LastName == employee.LastName && e.EmployeeNumber == employee.EmployeeNumber && e.Email == employee.Email).Select(e => e).SingleOrDefault();
@@ -215,6 +218,7 @@ namespace HumaneSociety
                 db.SubmitChanges();
             }
         }
+
         internal static void DeleteEmployee(Employee employee)
         {
             var oldEmployee = db.Employees.Where(e => e.LastName == employee.LastName && e.EmployeeNumber == employee.EmployeeNumber).Select(e => e).SingleOrDefault();
@@ -225,24 +229,78 @@ namespace HumaneSociety
             }
             else
             {
+                var animal = db.Animals.Where(a => a.EmployeeId == oldEmployee.EmployeeId).Select(a => a);
+                foreach (var item in animal)
+                {
+                    item.EmployeeId = null;
+                    db.SubmitChanges();
+                }
                 db.Employees.DeleteOnSubmit(oldEmployee);
                 db.SubmitChanges();
                 Console.WriteLine("Delete successful.");
                 Console.ReadLine();
             }
         }
+
         internal static void GetEmployee(Employee employee)
         {
             var grunt = db.Employees.Where(e => e.EmployeeNumber == employee.EmployeeNumber).Select(e => e).Single();
             Console.WriteLine("First Name: " + grunt.FirstName + "\n" + "Last Name: " + grunt.LastName + "\n" + "Username: " + grunt.UserName + "\n" + "Password: " + grunt.Password + "\n" + "Email: " + grunt.Email + "\n" + "Employee Number: " + grunt.EmployeeNumber);
             Console.ReadLine();
         }
+
+        private static IEnumerable<string[]> GetCvsFileInfo(string fileName)
+        {
+            var info = from animals in File.ReadAllLines(fileName)
+                       let infoSplit = animals.Split(new[] { ',', ' ', '"' }, StringSplitOptions.RemoveEmptyEntries)
+                       select new
+                       {
+                           infoSplit
+                       };
+            var infoArray = info.Select(a => a.infoSplit);
+            return infoArray;
+        }
+
+        public static void AddCvsInfoToSql()
+        {
+            var csvFile = GetCvsFileInfo("animals.csv");
+            foreach (var item in csvFile)
+            {
+                Animal animal = new Animal();
+                animal.Name = item[0];
+                animal.Weight = Convert.ToInt32(item[1]);
+                animal.Age = Convert.ToInt32(item[2]);
+                animal.Demeanor = item[3];
+                animal.KidFriendly = UserInterface.GetBitData(item[4]);
+                animal.PetFriendly = UserInterface.GetBitData(item[5]);
+                animal.Gender = item[6];
+                animal.AdoptionStatus = item[7];
+                if (CheckIfAlreadyInDB(animal) == false)
+                {
+                    AddAnimal(animal);
+                }
+            }
+        }
+
+        private static bool CheckIfAlreadyInDB(Animal animal)
+        {
+            bool doesExist = false;
+            var dbAnimal = db.Animals.Where(a => a.Name == animal.Name && a.Age == animal.Age && a.Weight == animal.Weight && a.Gender == animal.Gender).Select(a => a).SingleOrDefault();
+            if (dbAnimal != null)
+            {
+                doesExist = true;
+            }
+            else
+            {
+                doesExist = false;
+            }
+            return doesExist;
+        }
+
         internal static void AddAnimal(Animal animal)
         {
             db.Animals.InsertOnSubmit(animal);
             AddToRoom(animal);
-
-            
             db.SubmitChanges();
         }
 
@@ -304,6 +362,11 @@ namespace HumaneSociety
 
         internal static void RemoveAnimal(Animal animal)
         {
+            var room = db.Rooms.Where(r => r.AnimalId == animal.AnimalId).Select(r => r).SingleOrDefault();
+            if (room != null)
+            {
+                room.AnimalId = null;
+            }
             db.Animals.DeleteOnSubmit(animal);
             RemoveFromRoom(animal);
             var clientid = db.Adoptions.Where(a => a.AnimalId == animal.AnimalId).Select(a => a.ClientId).Single();
@@ -317,6 +380,10 @@ namespace HumaneSociety
             var animalList = db.Animals.Select(a => a);
             foreach (var item in updates)
             {
+                if (animalList.Count() == 1)
+                {
+                    break;
+                }
                 switch (item.Key)
                 {
                     case 1:
