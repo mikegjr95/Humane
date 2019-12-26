@@ -150,6 +150,18 @@ namespace HumaneSociety
             }
         }
 
+        public static bool ConvertToBool(string input)
+        {
+            if (input == "1" || input.ToLower() == "yes")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public static bool GetBitData(string option)
         {
             DisplayUserOptions(option);

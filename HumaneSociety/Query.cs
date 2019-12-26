@@ -271,8 +271,8 @@ namespace HumaneSociety
                 animal.Weight = Convert.ToInt32(item[1]);
                 animal.Age = Convert.ToInt32(item[2]);
                 animal.Demeanor = item[3];
-                animal.KidFriendly = UserInterface.GetBitData(item[4]);
-                animal.PetFriendly = UserInterface.GetBitData(item[5]);
+                animal.KidFriendly = UserInterface.ConvertToBool(item[4]);
+                animal.PetFriendly = UserInterface.ConvertToBool(item[5]);
                 animal.Gender = item[6];
                 animal.AdoptionStatus = item[7];
                 if (CheckIfAlreadyInDB(animal) == false)
@@ -306,14 +306,16 @@ namespace HumaneSociety
 
         internal static void AddToRoom(Animal animal)
         {
-            Room newRoom = null;
+            var rooms = db.Rooms.Select(r => r);
+            Room newRoom = new Room();
             newRoom.AnimalId = animal.AnimalId;
+            newRoom.RoomNumber = rooms.Count() + 1;
             newRoom.Animal = animal;
             db.Rooms.InsertOnSubmit(newRoom);
             db.SubmitChanges();
         }
 
-        internal static void RemoveFromRoom(Animal animal)
+        internal static void RemoveRoom(Animal animal)
         {
             var room = db.Rooms.Where(r => r.AnimalId == animal.AnimalId).Select(r => r).Single();
             db.Rooms.DeleteOnSubmit(room);
@@ -368,7 +370,7 @@ namespace HumaneSociety
                 room.AnimalId = null;
             }
             db.Animals.DeleteOnSubmit(animal);
-            RemoveFromRoom(animal);
+            RemoveRoom(animal);
             var clientid = db.Adoptions.Where(a => a.AnimalId == animal.AnimalId).Select(a => a.ClientId).Single();
             RemoveAdoption(animal.AnimalId, clientid);
             db.SubmitChanges();
